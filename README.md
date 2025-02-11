@@ -1,6 +1,6 @@
-# Invictus 2.0 : Ground Software
+# Invictus 2.0 : Software
 ## Description
-This repository contains all software for the boards external to the rocket.
+This repository contains all software for the boards external and internal to the rocket.
 All boards use an RP2040 chip.
 Each folder contains a PlatformIO project.
 
@@ -10,8 +10,13 @@ Each folder contains a PlatformIO project.
 - Filling Station (FS)
     - 1 x Telemetry Board
     - 1 x CANha Board
-- Ignition Board (IB)
-
+- Ignition "Station"
+    - 1 x Ignition Board
+- Rocket (R)
+    - 1 x Telemetry Board
+    - 1 x OBC
+    - 2 x CANha Board
+  
 ## Boards
 ### Telemetry (MC)
 #### Purpose:
@@ -33,3 +38,8 @@ Actuating the valves / servos as requested by the telemetry board
 #### Purpose:
 Running the Ignition State Machine
 Actuating the e-matches when the fire command is received (if the ignition state machine is in the correct state)
+
+### OBC (On-Board Computer)
+#### Purpose:
+Reading the Avionics sensors, running the Kalman filter and sending the data to the Telemetry board
+
