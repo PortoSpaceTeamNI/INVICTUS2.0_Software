@@ -1,6 +1,13 @@
 #include <unity.h>
 #include <Arduino.h>
 
+void setUp(void) {
+    // set stuff up here
+}
+
+void tearDown(void) {
+    // clean stuff up here
+}
 
 void test_dummy(void) {
     TEST_ASSERT_EQUAL(1, 1);
@@ -13,5 +20,4 @@ void setup() {
 }
 
 void loop() {
-
 }
