@@ -1,0 +1,85 @@
+#ifndef COMMANDS_H
+#define COMMANDS_H
+
+#define ID_MC_Telemetry 0x00
+#define ID_FS_Telemetry 0x01
+#define ID_FS_CANha 0x02
+#define ID_R_Telemetry 0x03
+#define ID_Broadcast 0xFF
+
+// Command types
+typedef enum {
+    // shared commands
+    CMD_STATUS,
+    CMD_LOG,
+    CMD_ABORT,
+    CMD_EXEC_PROG,
+    CMD_STOP_PROG,
+    CMD_FILLING_MODE,
+    CMD_MANUAL_MODE,
+    CMD_MANUAL_EXEC,
+    CMD_READY,
+    CMD_ARM,
+
+    // FLIGHT computer commands
+    CMD_ALLOW_LAUNCH,
+
+    // FILLING station commands
+    CMD_RESUME_PROG,
+    CMD_FIRE_PYRO,
+
+    // used to get the number of commands
+    cmd_size,
+
+    // ACKs
+    CMD_STATUS_ACK,
+    CMD_LOG_ACK,
+    CMD_ABORT_ACK,
+    CMD_EXEC_PROG_ACK,
+    CMD_STOP_PROG_ACK,
+    CMD_FILLING_MODE_ACK,
+    CMD_MANUAL_MODE_ACK,
+    CMD_MANUAL_EXEC_ACK,
+    CMD_READY_ACK,
+    CMD_ARM_ACK,
+    CMD_ALLOW_LAUNCH_ACK,
+    CMD_RESUME_PROG_ACK,
+    CMD_FIRE_PYRO_ACK,
+} cmd_type;
+
+// Manual commands
+typedef enum {
+    CMD_MANUAL_FLASH_LOG_START,
+    CMD_MANUAL_FLASH_LOG_STOP,
+    CMD_MANUAL_FLASH_IDS,
+    CMD_MANUAL_FLASH_DUMP,
+
+    CMD_MANUAL_VALVE_STATE,
+    CMD_MANUAL_VALVE_MS,
+
+    CMD_MANUAL_IMU_CALIBRATE,
+    CMD_MANUAL_BAROMETER_CALIBRATE,
+    CMD_MANUAL_KALMAN_CALIBRATE,
+
+    CMD_MANUAL_LOADCELL_CALIBRATE,
+    CMD_MANUAL_LOADCELL_TARE,
+
+    CMD_MANUAL_TANK_TARE,
+
+    manual_cmd_size,
+
+    CMD_MANUAL_FLASH_LOG_START_ACK,
+    CMD_MANUAL_FLASH_LOG_STOP_ACK,
+    CMD_MANUAL_FLASH_IDS_ACK,
+    CMD_MANUAL_FLASH_DUMP_ACK,
+    CMD_MANUAL_VALVE_STATE_ACK,
+    CMD_MANUAL_VALVE_MS_ACK,
+    CMD_MANUAL_IMU_CALIBRATE_ACK,
+    CMD_MANUAL_BAROMETER_CALIBRATE_ACK,
+    CMD_MANUAL_KALMAN_CALIBRATE_ACK,
+    CMD_MANUAL_LOADCELL_CALIBRATE_ACK,
+    CMD_MANUAL_LOADCELL_TARE_ACK,
+    CMD_MANUAL_TANK_TARE_ACK,
+} manual_cmd_type;
+
+#endif // COMMANDS_H
