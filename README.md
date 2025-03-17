@@ -33,7 +33,7 @@ Receiving the commands from MC and sending them to the correct CANha board
 #### Purpose:
 Reading sensor values and sending them to the telemetry board when requested
 Actuating the valves / servos as requested by the telemetry board
-#### Sequence Diagram
+#### Sequence Diagram:
 ![CANha Sequence Diagram](docs/CANha/canha_seq.svg)
 
 ### Ignition Board
