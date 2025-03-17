@@ -32,10 +32,10 @@ Requesting sensor values to the CANha boards and forwarding them to the MC when 
 Receiving the commands from MC and sending them to the correct CANha board
 
 #### Command Sequence Diagram
-![RComms Command Sequence](docs/RCOMMS/command_seq.puml)
+![RComms Command Sequence](docs/RCOMMS/command_seq.svg)
 
 #### Radio Sequence Diagram
-![RComms Radio Sequence](docs/RCOMMS/lora_seq.puml)
+![RComms Radio Sequence](docs/RCOMMS/lora_seq.svg)
 
 ### TVCS (FS/R)
 #### Purpose:
