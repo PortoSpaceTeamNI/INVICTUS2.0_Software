@@ -1,0 +1,28 @@
+@startuml CANha Sequence Diagram
+participant "RCOM" as R
+participant "Core 1 (RS485 Communication)" as C1
+participant "Data Queue" as DQ
+participant "Command Queue" as CQ
+participant "Core 2 (Sensor/Actuation)" as C2
+participant "Sensors" as S
+participant "Valves" as V
+
+loop Continuously read sensors
+    C2 -> S: Read sensor data
+    S --> C2: Sensor data
+end
+
+alt Status Command
+R -> C1: Status Command
+C1 -> C2: Request sensor data
+C2 -> DQ: Enqueue requested data
+C1 -> DQ: Dequeue sensor data
+DQ --> C1: Sensor data
+C1 -> R: Status Ack Command (with data)
+else Valve Command
+R -> C1: Valve Command
+C1 -> R: Valve Ack Command
+C1 -> C2: Command to actuate valve
+C2 -> V: Actuate valve
+end
+@enduml
