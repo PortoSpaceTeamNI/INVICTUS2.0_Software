@@ -3,6 +3,8 @@
 #include <commands.h>
 #include <communications.h>
 
+#define LED_PIN 2
+
 void communications_task() {
   Serial.println("Communications task started");
   while (1) {
@@ -15,11 +17,16 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  communications_task();
+  //communications_task();
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop()
 {
-
+  // put your main code here, to run repeatedly:
+  digitalWrite(LED_PIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_PIN, LOW);
+  delay(1000);
 }
 

@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+firmware = '.pio/build/telemetry_board/firmware.uf2'
+elf = '.pio/build/telemetry_board/firmware.elf'
+simulation.speed = "fastest"
