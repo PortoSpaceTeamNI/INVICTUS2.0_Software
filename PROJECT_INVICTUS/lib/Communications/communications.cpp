@@ -6,17 +6,17 @@
 CommunicationStatus write_packet(Packet *packet, InterfaceType interface)
 {
     // write the packet to the specified interface
-    switch(interface)
+    switch (interface)
     {
-        case INTERFACE_LORA:
-            break;
-        case INTERFACE_RS485:
-            break;
-        case INTERFACE_UART:
-            Serial.write(packet->contents.raw, sizeof(packet->contents.raw));
-            break;
-        default:
-            return INTERFACE_NOT_FOUND;
+    case INTERFACE_LORA:
+        break;
+    case INTERFACE_RS485:
+        break;
+    case INTERFACE_UART:
+        Serial.write(packet->contents.raw, sizeof(packet->contents.raw));
+        break;
+    default:
+        return INTERFACE_NOT_FOUND;
     }
     return PACKET_OK;
 }
@@ -24,28 +24,39 @@ CommunicationStatus write_packet(Packet *packet, InterfaceType interface)
 CommunicationStatus read_packet(Packet *packet, InterfaceType interface)
 {
     static PacketState states[interface_count] = {SYNC};
-    
+
     PacketState *state = &states[interface];
 
     // read the packet from the specified interface
-    switch(interface) 
+    switch (interface)
     {
-        case INTERFACE_LORA:
-            break;
-        case INTERFACE_RS485:
-            break;
-        case INTERFACE_UART:
-            while (Serial.available() > 0)
-            {
-                byte incomingByte = Serial.read();
-                Serial.println(*state);
-                *state = parse_byte(*state, incomingByte, packet);
-            }
-            break;
-        default:
-            return INTERFACE_NOT_FOUND;
+    case INTERFACE_LORA:
+        break;
+    case INTERFACE_RS485:
+        break;
+    case INTERFACE_UART:
+        while (Serial.available() && *state != END)
+        {
+            byte incomingByte = Serial.read();
+            *state = parse_byte(*state, incomingByte, packet);
+        }
+        break;
+    default:
+        return INTERFACE_NOT_FOUND;
     }
-    return PACKET_OK;
+    if (*state == END)
+    {
+        if (check_h_crc(packet) && check_crc(packet))
+            return PACKET_OK;
+        else
+            return PACKET_ERROR;
+    }
+    else if (*state != SYNC && clock() - packet->begin > MAX_PACKET_READ_TIME)
+    {
+        *state = SYNC;
+        return PACKET_TIMEOUT;
+    }
+    return PACKET_EMPTY;   
 }
 
 PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet)
@@ -83,7 +94,7 @@ PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet)
         break;
     case H_CRC2:
         packet->contents.fields.h_crc2 = incomingByte;
-        if(check_h_crc(packet))
+        if (check_h_crc(packet))
             state = PAYLOAD;
         else
             state = SYNC;
@@ -104,13 +115,16 @@ PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet)
         break;
     case CRC2:
         packet->contents.fields.crc2 = incomingByte;
-        state = SYNC;
+        state = END;
         break;
+    default:
+        state = SYNC;
     }
     return state;
 }
 
-bool check_crc(Packet *packet) {
+bool check_crc(Packet *packet)
+{
     // check the packet's CRCs
     uint16_t crc1, crc2;
     crc1 = packet->contents.fields.crc1 << 8 | packet->contents.fields.crc2;
@@ -118,7 +132,8 @@ bool check_crc(Packet *packet) {
     return (crc1 == crc2);
 }
 
-bool check_h_crc(Packet *packet) {
+bool check_h_crc(Packet *packet)
+{
     // check the packet's header CRCs
     uint16_t crc1, crc2;
     crc1 = packet->contents.fields.h_crc1 << 8 | packet->contents.fields.h_crc2;

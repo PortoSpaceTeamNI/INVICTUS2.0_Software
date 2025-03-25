@@ -49,6 +49,7 @@ typedef enum {
     PAYLOAD,
     CRC1,
     CRC2,
+    END
 } PacketState;
 
 void create_packet(byte command, byte target_id, byte sender_id, byte payload_length, byte payload[], Packet *packet);

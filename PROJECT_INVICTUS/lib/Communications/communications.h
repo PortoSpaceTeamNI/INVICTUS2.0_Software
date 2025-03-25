@@ -4,6 +4,8 @@
 #include <packet.h>
 #include <CRC.h>
 
+#define MAX_PACKET_READ_TIME 250 // if the packet is not complete in MAX_PACKET_READ_TIME, reset the state to SYNC
+
 typedef enum {
     INTERFACE_LORA,
     INTERFACE_RS485,
