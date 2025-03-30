@@ -1,20 +1,22 @@
 #include "state_machine.h"
+#include "commands.h"
 
-rocket_state_t state = IDLE;
-
-rocket_state_t comm_transition[rocket_state_size][cmd_size] = {
-    //                       STATUS LOG ABORT EXEC  STOP   FUELING  MANUAL MAN_EXEC READY  ARM  LAUNCH  RESUME  FIRE
-    /* Idle            */ {    -1,  -1, ABORT, -1,   -1,   FUELING, MANUAL,   -1,   READY,  -1,  -1,     -1,     -1,},
-    /* Fueling         */ {    -1,  -1, IDLE,  -1,  IDLE,     -1,   MANUAL,   -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Manual          */ {    -1,  -1, IDLE,  -1,  IDLE,     -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Safety_Pressure */ {    -1,  -1, ABORT, -1,  FUELING,  -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Purge_Pressure  */ {    -1,  -1, ABORT, -1,  FUELING,  -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Purge_Liquid    */ {    -1,  -1, ABORT, -1,  FUELING,  -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Safety_Active   */ {    -1,  -1, ABORT, -1,  FUELING,  -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Ready           */ {    -1,  -1, IDLE,  -1,  IDLE,     -1,     -1,     -1,    -1,   ARMED,-1,     -1,     -1,},
-    /* Armed           */ {    -1,  -1, IDLE,  -1,  READY,    -1,     -1,     -1,    -1,    -1, LAUNCH,  -1,     -1,},
-    /* Launch          */ {    -1,  -1, ABORT, -1,  IDLE,     -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Abort           */ {    -1,  -1,  -1,   -1,  IDLE,     -1,     -1,     -1,    IDLE,  -1,  -1,     -1,     -1,},
-    /* Flight          */ {    -1,  -1, ABORT, -1,  IDLE,     -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,},
-    /* Recovery        */ {    -1,  -1, IDLE,  -1,  IDLE,     -1,     -1,     -1,    -1,    -1,  -1,     -1,     -1,}
+RocketState state_transitions[rocket_state_size][cmd_size] = {
+    //                       STATUS      LOG         ABORT  EXEC        STOP   PROG        MANUAL      MAN_EXEC    READY       ARM         LAUNCH      RESUME      FIRE
+    /* Idle            */ {  IDLE,       IDLE,       ABORT, IDLE,       IDLE,  PROG,       MANUAL,     IDLE,       READY,      IDLE,       IDLE,       IDLE,       IDLE,},
+    /* Prog            */ {  PROG,       PROG,       IDLE,  PROG,       IDLE,  PROG,       MANUAL,     PROG,       PROG,       PROG,       PROG,       PROG,       PROG,},
+    /* Manual          */ {  MANUAL,     MANUAL,     IDLE,  MANUAL,     IDLE,  MANUAL,     MANUAL,     MANUAL,     MANUAL,     MANUAL,     MANUAL,     MANUAL,     MANUAL,},
+    /* Ready           */ {  READY,      READY,      IDLE,  READY,      IDLE,  READY,      READY,      READY,      READY,      ARMED,      READY,      READY,      READY,},
+    /* Armed           */ {  ARMED,      ARMED,      IDLE,  ARMED,      READY, ARMED,      ARMED,      ARMED,      ARMED,      ARMED,      LAUNCH,     ARMED,      ARMED,},
+    /* Launch          */ {  LAUNCH,     LAUNCH,     ABORT, LAUNCH,     IDLE,  LAUNCH,     LAUNCH,     LAUNCH,     LAUNCH,     LAUNCH,     LAUNCH,     LAUNCH,     LAUNCH,},
+    /* Soft Abort      */ {  SOFT_ABORT, SOFT_ABORT, ABORT, SOFT_ABORT, IDLE,  SOFT_ABORT, SOFT_ABORT, SOFT_ABORT, SOFT_ABORT, SOFT_ABORT, SOFT_ABORT, SOFT_ABORT, SOFT_ABORT,},
+    /* Abort           */ {  ABORT,      ABORT,      ABORT, ABORT,      IDLE,  ABORT,      ABORT,      ABORT,      IDLE,       ABORT,      ABORT,      ABORT,      ABORT,},
+    /* Flight          */ {  FLIGHT,     FLIGHT,     ABORT, FLIGHT,     IDLE,  FLIGHT,     FLIGHT,     FLIGHT,     FLIGHT,     FLIGHT,     FLIGHT,     FLIGHT,     FLIGHT,},
+    /* Recovery        */ {  RECOVERY,   RECOVERY,   IDLE,  RECOVERY,   IDLE,  RECOVERY,   RECOVERY,   RECOVERY,   RECOVERY,   RECOVERY,   RECOVERY,   RECOVERY,   RECOVERY,},
 };
+
+RocketState get_next_state(RocketState current_state, cmd_type cmd)
+{
+    return state_transitions[current_state][cmd];
+}
+
