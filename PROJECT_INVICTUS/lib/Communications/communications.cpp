@@ -4,6 +4,11 @@
 #include <packet.h>
 #include <stdlib.h>
 
+bool packet_timed_out(Packet *packet)
+{
+    return (clock() - packet->begin > MAX_PACKET_READ_TIME);
+}
+
 CommunicationStatus write_packet(Packet *packet, InterfaceType interface)
 {
     // write the packet to the specified interface
@@ -42,23 +47,28 @@ CommunicationStatus read_packet(Packet *packet, InterfaceType interface)
         {
             byte incomingByte = Serial.read();
             *state = parse_byte(*state, incomingByte, packet);
+            if (*state != SYNC && packet_timed_out(packet))
+            {
+                *state = SYNC;
+                return PACKET_TIMEOUT;
+            }
         }
         break;
     default:
         return INTERFACE_NOT_FOUND;
     }
+
+    // check if the packet is valid
     if (*state == END)
     {
-        if (check_h_crc(packet) && check_crc(packet))
+        *state = SYNC;
+        if (check_crc(packet))
             return PACKET_OK;
         else
             return PACKET_ERROR;
     }
-    else if (*state != SYNC && clock() - packet->begin > MAX_PACKET_READ_TIME)
-    {
-        *state = SYNC;
-        return PACKET_TIMEOUT;
-    }
+    // check if the packet has timed out
+    else 
     return PACKET_EMPTY;   
 }
 

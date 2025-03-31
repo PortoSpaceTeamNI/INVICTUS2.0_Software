@@ -1,12 +1,9 @@
-typedef rocket_state_t;
-enum 
+#include "commands.h"
+typedef enum 
 {
     IDLE,
+    PROG,
     MANUAL,
-    PREPRESSURIZING,
-    FILLING_N,
-    FILLING_N2O,
-    POSTPRESSURIZING,
     READY,
     ARMED,
     LAUNCH,
@@ -15,4 +12,6 @@ enum
     FLIGHT,
     RECOVERY,
     rocket_state_size, //this needs to be the last state for size to work
-} rocket_state;
+} RocketState;
+
+RocketState get_next_state(RocketState current_state, cmd_type cmd);

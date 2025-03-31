@@ -32,10 +32,13 @@ Requesting sensor values to the CANha boards and forwarding them to the MC when 
 Receiving the commands from MC and sending them to the correct CANha board
 
 #### Command Sequence Diagram
-![RComms Command Sequence](docs/RCOMMS/command_seq.svg)
+![OBC Command Sequence](docs/OBC/command_seq.svg)
 
 #### Radio Sequence Diagram
-![RComms Radio Sequence](docs/RCOMMS/lora_seq.svg)
+![OBC Radio Sequence](docs/OBC/lora_seq.svg)
+
+#### Filling State Machine
+![OBC Filing State Machine](docs/OBC/filling_state_machine.svg)
 
 ### TVCS (FS/R)
 #### Purpose:

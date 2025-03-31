@@ -9,7 +9,7 @@ typedef enum {
     CMD_ABORT,
     CMD_EXEC_PROG,
     CMD_STOP_PROG,
-    CMD_FILLING_MODE,
+    CMD_PROG_MODE,
     CMD_MANUAL_MODE,
     CMD_MANUAL_EXEC,
     CMD_READY,
