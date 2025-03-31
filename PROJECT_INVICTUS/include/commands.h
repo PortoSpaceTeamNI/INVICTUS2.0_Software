@@ -1,12 +1,6 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-#define ID_MC_Telemetry 0x00
-#define ID_FS_Telemetry 0x01
-#define ID_FS_CANha 0x02
-#define ID_R_Telemetry 0x03
-#define ID_Broadcast 0xFF
-
 // Command types
 typedef enum {
     // shared commands

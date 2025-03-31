@@ -40,6 +40,7 @@ typedef struct
 // Packet read/write state
 typedef enum {
     SYNC = 0,
+    VERSION,
     CMD,
     TARGET_ID,
     SENDER_ID,
@@ -53,5 +54,10 @@ typedef enum {
 } PacketState;
 
 void create_packet(byte command, byte target_id, byte sender_id, byte payload_length, byte payload[], Packet *packet);
+
+int packet_to_buffer(Packet *packet, byte buffer[]); // returns 
+
+// testing
+void generate_mock_packet(Packet *packet);
 
 #endif // PACKET_H

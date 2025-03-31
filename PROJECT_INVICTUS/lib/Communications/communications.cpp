@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <communications.h>
+#include <commands.h>
 #include <packet.h>
 #include <stdlib.h>
 
@@ -13,7 +14,9 @@ CommunicationStatus write_packet(Packet *packet, InterfaceType interface)
     case INTERFACE_RS485:
         break;
     case INTERFACE_UART:
-        Serial.write(packet->contents.raw, sizeof(packet->contents.raw));
+        byte buffer[MAX_PACKET_SIZE];
+        packet_to_buffer[packet, buffer]
+        
         break;
     default:
         return INTERFACE_NOT_FOUND;
@@ -72,6 +75,8 @@ PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet)
             packet->begin = clock();
         }
         break;
+    case VERSION:
+        packet->contents.fields.version = incomingByte;
     case CMD:
         packet->contents.fields.command = incomingByte;
         state = TARGET_ID;
@@ -139,4 +144,10 @@ bool check_h_crc(Packet *packet)
     crc1 = packet->contents.fields.h_crc1 << 8 | packet->contents.fields.h_crc2;
     crc2 = crc((byte *)packet->contents.raw, HEADER_SIZE);
     return (crc1 == crc2);
+}
+
+// testing functions
+void read_mock_packet(Packet *packet) {
+    int i = 0;
+    while(i < )
 }

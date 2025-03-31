@@ -6,6 +6,12 @@
 
 #define MAX_PACKET_READ_TIME 250 // if the packet is not complete in MAX_PACKET_READ_TIME, reset the state to SYNC
 
+#define ID_MC_Telemetry 0x00
+#define ID_FS_Telemetry 0x01
+#define ID_FS_CANha 0x02
+#define ID_R_Telemetry 0x03
+#define ID_Broadcast 0xFF
+
 typedef enum {
     INTERFACE_LORA,
     INTERFACE_RS485,
@@ -32,5 +38,7 @@ PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet);
 bool check_crc(Packet *packet);
 bool check_h_crc(Packet *packet);
 
+// fill the buffer with a mock packet for testing
+void read_mock_packet(Packet *packet); 
 
 #endif // COMMUNICATIONS_H
