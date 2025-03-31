@@ -20,8 +20,7 @@ CommunicationStatus write_packet(Packet *packet, InterfaceType interface)
         break;
     case INTERFACE_UART:
         byte buffer[MAX_PACKET_SIZE];
-        packet_to_buffer[packet, buffer]
-        
+        packet_to_buffer(packet, buffer);
         break;
     default:
         return INTERFACE_NOT_FOUND;
@@ -156,8 +155,3 @@ bool check_h_crc(Packet *packet)
     return (crc1 == crc2);
 }
 
-// testing functions
-void read_mock_packet(Packet *packet) {
-    int i = 0;
-    while(i < )
-}
