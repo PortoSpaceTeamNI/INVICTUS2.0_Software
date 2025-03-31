@@ -10,7 +10,7 @@
 #define PACKET_VERSION 0x01
 
 typedef uint8_t byte; // easier to read than uint8_t
-typedef unsigned long clock_t; // easier to read than unsigned long
+typedef unsigned long ulong; // easier to read than unsigned long
 
 typedef struct // __atribute__((packed)) // don't know if this is safe to use as it may cause invalid pointers and SIGSEV errors
 // this struct is used to access the packet's fields
@@ -56,6 +56,9 @@ typedef enum {
 void create_packet(byte command, byte target_id, byte sender_id, byte payload_length, byte payload[], Packet *packet);
 
 int packet_to_buffer(Packet *packet, byte buffer[]); // returns 
+
+bool check_crc(Packet *packet);
+bool check_hcrc(Packet *packet);
 
 // testing
 void generate_mock_packet(Packet *packet);

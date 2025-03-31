@@ -1,6 +1,8 @@
 #ifndef COMMUNICATIONS_H
 #define COMMUNICATIONS_H
 
+#include <Arduino.h>
+
 #include <packet.h>
 #include <CRC.h>
 

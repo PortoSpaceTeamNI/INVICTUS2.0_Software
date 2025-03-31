@@ -1,7 +1,5 @@
-#include <Arduino.h>
 #include <communications.h>
 #include <commands.h>
-#include <packet.h>
 #include <stdlib.h>
 
 bool packet_timed_out(Packet *packet)
@@ -137,21 +135,5 @@ PacketState parse_byte(PacketState state, byte incomingByte, Packet *packet)
     return state;
 }
 
-bool check_crc(Packet *packet)
-{
-    // check the packet's CRCs
-    uint16_t crc1, crc2;
-    crc1 = packet->contents.fields.crc1 << 8 | packet->contents.fields.crc2;
-    crc2 = crc((byte *)packet->contents.raw, sizeof(packet->contents.raw) - 2);
-    return (crc1 == crc2);
-}
 
-bool check_h_crc(Packet *packet)
-{
-    // check the packet's header CRCs
-    uint16_t crc1, crc2;
-    crc1 = packet->contents.fields.h_crc1 << 8 | packet->contents.fields.h_crc2;
-    crc2 = crc((byte *)packet->contents.raw, HEADER_SIZE);
-    return (crc1 == crc2);
-}
 
