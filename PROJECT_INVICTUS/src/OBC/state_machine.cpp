@@ -1,6 +1,7 @@
 #include "state_machine.h"
 #include "commands.h"
 
+// DO NOT AUTO FORMAT !!!
 RocketState state_transitions[rocket_state_size][cmd_size] = {
     //                       STATUS      LOG         ABORT  EXEC        STOP   PROG        MANUAL      MAN_EXEC    READY       ARM         LAUNCH      RESUME      FIRE
     /* Idle            */ {  IDLE,       IDLE,       ABORT, IDLE,       IDLE,  PROG,       MANUAL,     IDLE,       READY,      IDLE,       IDLE,       IDLE,       IDLE,},

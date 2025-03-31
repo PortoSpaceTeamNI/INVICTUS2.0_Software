@@ -20,11 +20,7 @@ void loop()
   CommunicationStatus status = read_packet(&packet, INTERFACE_UART);
   if(status == PACKET_OK)
   {
-    RocketState cmd_state = get_next_state(state, (cmd_type)packet.contents.fields.command);
+    cmd_state = get_next_state(state, (cmd_type)packet.contents.fields.command);
   } 
-  else
-  {
-    // handle other errors
-  }
 }
 

@@ -59,7 +59,7 @@ CommunicationStatus read_packet(Packet *packet, InterfaceType interface)
     if (*state == END)
     {
         *state = SYNC;
-        if (check_h_crc(packet) && check_crc(packet))
+        if (check_crc(packet))
             return PACKET_OK;
         else
             return PACKET_ERROR;
